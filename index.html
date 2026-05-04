@@ -156,6 +156,28 @@
       document.getElementById("result").classList.remove("hidden");
     };
   </script>
+<script>
+  const music = document.getElementById("bg-music");
 
+  // luôn reset khi load / refresh
+  window.addEventListener("pageshow", () => {
+    music.currentTime = 0;
+
+    music.play().then(() => {
+      // bỏ mute sau khi đã play được
+      setTimeout(() => {
+        music.muted = false;
+      }, 150);
+    }).catch(() => {
+      // nếu bị chặn → click lần đầu sẽ phát từ đầu
+      const start = () => {
+        music.currentTime = 0;
+        music.muted = false;
+        music.play();
+      };
+      document.addEventListener("click", start, { once: true });
+    });
+  });
+</script>
 </body>
 </html>
