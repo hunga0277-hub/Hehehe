@@ -25,7 +25,6 @@
       overflow: hidden;
     }
 
-    /* ẢNH DỌC - LẤY FULL FORM */
     .avatar {
       width: 260px;
       height: 440px;
@@ -69,7 +68,6 @@
       display: none;
     }
 
-    /* giữ nguyên RESULT */
     .result-img {
       width: 220px;
       height: 400px;
@@ -107,7 +105,6 @@
     const yesBtn = document.getElementById("yes");
     const card = document.getElementById("card");
 
-    // đặt vị trí ban đầu đối xứng với Yes
     const yesRect = yesBtn.getBoundingClientRect();
     const cardRect = card.getBoundingClientRect();
 
@@ -132,19 +129,17 @@
 
         const angle = Math.atan2(dy, dx);
 
-        const move = 180; // chạy xa hơn
+        const move = 180;
 
         x += Math.cos(angle) * move;
         y += Math.sin(angle) * move;
 
-        // giới hạn trong card
         const maxX = card.clientWidth - noBtn.offsetWidth;
         const maxY = card.clientHeight - noBtn.offsetHeight;
 
         x = Math.max(0, Math.min(maxX, x));
         y = Math.max(0, Math.min(maxY, y));
 
-        // mượt hơn (giảm giật)
         noBtn.style.transition = "left 0.25s ease, top 0.25s ease";
         noBtn.style.left = x + "px";
         noBtn.style.top = y + "px";
@@ -156,28 +151,33 @@
       document.getElementById("result").classList.remove("hidden");
     };
   </script>
-<script>
-  const music = document.getElementById("bg-music");
 
-  // luôn reset khi load / refresh
-  window.addEventListener("pageshow", () => {
-    music.currentTime = 0;
+  <!-- AUDIO -->
+  <audio id="bg-music" src="music.mp3" preload="auto" loop muted></audio>
 
-    music.play().then(() => {
-      // bỏ mute sau khi đã play được
-      setTimeout(() => {
-        music.muted = false;
-      }, 150);
-    }).catch(() => {
-      // nếu bị chặn → click lần đầu sẽ phát từ đầu
-      const start = () => {
-        music.currentTime = 0;
-        music.muted = false;
-        music.play();
-      };
-      document.addEventListener("click", start, { once: true });
+  <!-- AUTOPLAY -->
+  <script>
+    const music = document.getElementById("bg-music");
+
+    window.addEventListener("pageshow", () => {
+      if (!music) return;
+
+      music.currentTime = 0;
+
+      music.play().then(() => {
+        setTimeout(() => {
+          music.muted = false;
+        }, 150);
+      }).catch(() => {
+        const start = () => {
+          music.currentTime = 0;
+          music.muted = false;
+          music.play();
+        };
+        document.addEventListener("click", start, { once: true });
+      });
     });
-  });
-</script>
+  </script>
+
 </body>
 </html>
